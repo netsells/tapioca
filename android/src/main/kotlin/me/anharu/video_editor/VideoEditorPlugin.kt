@@ -8,7 +8,7 @@ import android.os.Environment
 import androidx.annotation.NonNull
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.daasuu.mp4compose.composer.Mp4Composer
+import com.daasuu.gpuv.composer.GPUMp4Composer
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.plugin.common.MethodCall
@@ -16,8 +16,6 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import me.anharu.video_editor.VideoGeneratorService
-import java.io.File
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.PluginRegistry
@@ -77,7 +75,7 @@ public class VideoEditorPlugin : FlutterPlugin, MethodCallHandler, PluginRegistr
                         result.error("processing_data_not_found", "the processing is not found.", null)
                         return
                     }
-            val generator = VideoGeneratorService(Mp4Composer(srcFilePath, destFilePath))
+            val generator = VideoGeneratorService(GPUMp4Composer(srcFilePath, destFilePath))
             generator.writeVideofile(processing, result, getActivity)
         } else {
             result.notImplemented()

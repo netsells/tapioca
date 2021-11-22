@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import com.daasuu.mp4compose.filter.GlOverlayFilter
+import com.daasuu.gpuv.egl.filter.GlOverlayFilter
 import me.anharu.video_editor.TextOverlay
 
 

@@ -1,17 +1,11 @@
 package me.anharu.video_editor
 
 import android.app.Activity
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import com.daasuu.mp4compose.composer.Mp4Composer
-import com.daasuu.mp4compose.filter.*
 import me.anharu.video_editor.filter.GlImageOverlayFilter
-import me.anharu.video_editor.ImageOverlay
 import io.flutter.plugin.common.MethodChannel.Result
-import android.graphics.Paint.Align
-import android.graphics.Paint.ANTI_ALIAS_FLAG
+import com.daasuu.gpuv.composer.GPUMp4Composer
+import com.daasuu.gpuv.egl.filter.GlFilter
+import com.daasuu.gpuv.egl.filter.GlFilterGroup
 import me.anharu.video_editor.filter.GlColorBlendFilter
 import me.anharu.video_editor.filter.GlTextOverlayFilter
 
@@ -21,9 +15,13 @@ interface VideoGeneratorServiceInterface {
 }
 
 class VideoGeneratorService(
-        private val composer: Mp4Composer
+        private val composer: GPUMp4Composer
 ) : VideoGeneratorServiceInterface {
-    override fun writeVideofile(processing: HashMap<String,HashMap<String,Any>>, result: Result, activity: Activity ) {
+    override fun writeVideofile(
+        processing: HashMap<String, HashMap<String, Any>>,
+        result: Result,
+        activity: Activity
+    ) {
         val filters: MutableList<GlFilter> = mutableListOf()
         try {
             processing.forEach { (k, v) ->
@@ -43,14 +41,15 @@ class VideoGeneratorService(
                     }
                 }
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             println(e)
             activity.runOnUiThread(Runnable {
                 result.error("processing_data_invalid", "Processing data is invalid.", null)
             })
+            return;
         }
-        composer.filter(GlFilterGroup( filters))
-                .listener(object : Mp4Composer.Listener {
+            composer.filter(GlFilterGroup(filters))
+                .listener(object : GPUMp4Composer.Listener {
                     override fun onProgress(progress: Double) {
                         println("onProgress = " + progress)
                     }
@@ -61,19 +60,27 @@ class VideoGeneratorService(
                         })
                     }
 
-                    override  fun onCanceled() {
+                    override fun onCanceled() {
                         activity.runOnUiThread(Runnable {
-                            result.error("video_processing_canceled", "Video processing is canceled.", null)
+                            result.error(
+                                "video_processing_canceled",
+                                "Video processing is canceled.",
+                                null
+                            )
                         })
                     }
 
                     override fun onFailed(exception: Exception) {
                         println(exception);
                         activity.runOnUiThread(Runnable {
-                            result.error("video_processing_failed", "video processing is failed.", null)
+                            result.error(
+                                "video_processing_failed",
+                                "video processing is failed.",
+                                null
+                            )
                         })
                     }
                 }).start()
+        }
     }
-}
 

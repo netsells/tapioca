@@ -1,11 +1,11 @@
 package me.anharu.video_editor.filter
 
-import com.daasuu.mp4compose.filter.GlFilter;
 import android.opengl.GLES20
 import me.anharu.video_editor.Filter
 import android.graphics.Color
+import com.daasuu.gpuv.egl.filter.GlFilter
 
-class GlColorBlendFilter(filter: Filter) : GlFilter(GlFilter.DEFAULT_VERTEX_SHADER,this.CONTRAST_FRAGMENT_SHADER) {
+class GlColorBlendFilter(filter: Filter) : GlFilter(DEFAULT_VERTEX_SHADER,this.CONTRAST_FRAGMENT_SHADER) {
     private val filter: Filter = filter
     companion object {
         const val CONTRAST_FRAGMENT_SHADER =

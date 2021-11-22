@@ -1,9 +1,9 @@
 package me.anharu.video_editor.filter
 
-import com.daasuu.mp4compose.filter.GlOverlayFilter;
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import com.daasuu.gpuv.egl.filter.GlOverlayFilter
 import me.anharu.video_editor.ImageOverlay
 
 class GlImageOverlayFilter(imageOverlay: ImageOverlay) : GlOverlayFilter() {
